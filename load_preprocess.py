@@ -125,7 +125,23 @@ def save_model_weights_as_csv(model, savpath = "./model_weights"):
     savetxt(layer_path+"in_weights.csv",in_weights,delimiter=',')
     savetxt(layer_path+"out_weights.csv",out_weights,delimiter=',')
 
-
+# with LabVIEW it is easiest if rather than a json file I have multiple csvs.
+# savpath should be a folder
+def json_to_csv(json_file, savpath):
+    import os
+    import os.path as path
+    import json
+    import numpy as np
+    from numpy import savetxt
+    f = open(json_file)
+    data = json.load(f)
+    f.close()
+    if(not path.exists(savpath)):
+        os.mkdir(savpath)
+    for name, dataset in data.items():
+        if(type(dataset) == type([])):
+            savetxt(savpath +'/' + name + '.csv', np.array(dataset), delimiter=',')
+        
 
 if __name__ == '__main__':
     preprocess()
