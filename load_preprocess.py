@@ -141,7 +141,29 @@ def json_to_csv(json_file, savpath):
     for name, dataset in data.items():
         if(type(dataset) == type([])):
             savetxt(savpath +'/' + name + '.csv', np.array(dataset), delimiter=',')
-        
+# actually I want the preprocessed data into csv. i'll only do the test
+# datasets though. savpaths should be a folder
+def preprocessed_to_csv(savpath):
+    import pickle
+    import numpy as np
+    from numpy import savetxt
+    import os
+    from os import path
+    if(not path.exists(savpath)):
+        os.mkdir(savpath)
+    load_X_test = open("./pickles/X_test", 'rb')
+    load_y_test = open("./pickles/y_test", 'rb')
+    load_t_test = open("./pickles/t_test", 'rb')
+    X_test = np.squeeze(pickle.load(load_X_test))
+    y_test = np.squeeze(pickle.load(load_y_test))
+    t_test = np.squeeze(pickle.load(load_t_test))
+    load_X_test.close()
+    load_y_test.close()
+    load_t_test.close()
+    savetxt(savpath+'/X_test.csv',X_test,delimiter=',')
+    savetxt(savpath+'/y_test.csv',y_test,delimiter=',')
+    savetxt(savpath+'/t_test.csv',t_test,delimiter=',')
+
 
 if __name__ == '__main__':
     preprocess()
